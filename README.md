@@ -5,6 +5,7 @@ A [Flutter](https://flutter.io) plugin for sharing files & text with other appli
 ## Note for iOS
 
 Your flutter's iOS code needs to be in swift. Otherwise you will get error:
+
 === BUILD TARGET flutter_inappbrowser OF PROJECT Pods WITH CONFIGURATION Debug ===
 The “Swift Language Version” (SWIFT_VERSION) build setting must be set to a supported value for targets which use Swift. Supported values are: 3.0, 4.0, 4.2. This setting can be set in the build settings editor.
 
