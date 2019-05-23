@@ -1,7 +1,7 @@
 package com.wisecrab.wc_flutter_share;
 
 
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 /**
  * Providing a custom {@code FileProvider} prevents manifest {@code <provider>} name collisions.
