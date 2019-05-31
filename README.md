@@ -57,6 +57,6 @@ await WcFlutterShare.share(
     mimeType: 'image/png',  
     bytesOfFile: bytes.buffer.asUint8List());
 ```
-***NOTE:** You won't be able to share image and text simultaneously on some applications. It is not a bug of this plugin. Some applications don't support this. Applications that i have tested this on Skype which is working fine.*
+***NOTE:** You won't be able to share image and text simultaneously on some applications. It is not a bug of this plugin. Some applications don't support this. I have tested this on Skype, on which is working fine.*
 
 Check out the example app in the Repository for further information.
