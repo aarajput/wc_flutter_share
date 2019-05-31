@@ -16,7 +16,7 @@ Instead, if you have already a non-swift project, you can check this issue to so
 
 ## Note for Android
 Your android support libraries needs to be of androidx.
-If you want to migrate your android project to androidx, can take help from [Migrating to AndroidX](https://developer.android.com/jetpack/androidx/migrate)
+If you want to migrate your android project to androidx, you can take help from [Migrating to AndroidX](https://developer.android.com/jetpack/androidx/migrate)
 
 ## Usage
 ### Import:
@@ -28,7 +28,11 @@ import 'package:wc_flutter_share/wc_flutter_share.dart';
 #### Share text:
 
 ```dart
-WcFlutterShare.text('This is share title', 'This is share text', 'text/plain');
+WcFlutterShare.share(  
+    sharePopupTitle: 'Share',  
+    subject: 'This is subject',  
+    text: 'This is text',  
+    mimeType: 'text/plain');
 ```
 #### Share file only:
 
@@ -53,5 +57,6 @@ await WcFlutterShare.share(
     mimeType: 'image/png',  
     bytesOfFile: bytes.buffer.asUint8List());
 ```
+***NOTE:** You won't be able to share image and text simultaneously on some applications. It is not a bug of this plugin. Some applications don't support this. Applications that i have tested this on Skype which is working fine.*
 
 Check out the example app in the Repository for further information.
