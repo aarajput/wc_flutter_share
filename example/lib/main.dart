@@ -26,7 +26,9 @@ class MyApp extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            FlatButton(onPressed: _shareImageAndText, child: Text('Share file and text')),
+            FlatButton(
+                onPressed: _shareImageAndText,
+                child: Text('Share file and text')),
           ],
         ),
       ),
@@ -35,8 +37,11 @@ class MyApp extends StatelessWidget {
 
   void _shareText() async {
     try {
-      WcFlutterShare.text(
-          'This is share title', 'This is share text', 'text/plain');
+      WcFlutterShare.share(
+          sharePopupTitle: 'Share',
+          subject: 'This is subject',
+          text: 'This is text',
+          mimeType: 'text/plain');
     } catch (e) {
       print(e);
     }
@@ -45,13 +50,11 @@ class MyApp extends StatelessWidget {
   void _shareImage() async {
     try {
       final ByteData bytes = await rootBundle.load('assets/wisecrab.png');
-      await WcFlutterShare.file(
-          'This is popuptitle',
-          null,
-          null,
-          'share.png',
-          'image/png',
-          bytes.buffer.asUint8List());
+      await WcFlutterShare.share(
+          sharePopupTitle: 'share',
+          fileName: 'share.png',
+          mimeType: 'image/png',
+          bytesOfFile: bytes.buffer.asUint8List());
     } catch (e) {
       print('error: $e');
     }
@@ -60,13 +63,13 @@ class MyApp extends StatelessWidget {
   void _shareImageAndText() async {
     try {
       final ByteData bytes = await rootBundle.load('assets/wisecrab.png');
-      await WcFlutterShare.file(
-          'This is share title',
-          'This is share text',
-          'This is subject text',
-          'share.png',
-          'image/png',
-          bytes.buffer.asUint8List());
+      await WcFlutterShare.share(
+          sharePopupTitle: 'share',
+          subject: 'This is subject',
+          text: 'This is text',
+          fileName: 'share.png',
+          mimeType: 'image/png',
+          bytesOfFile: bytes.buffer.asUint8List());
     } catch (e) {
       print('error: $e');
     }

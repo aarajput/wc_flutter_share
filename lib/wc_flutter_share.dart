@@ -1,41 +1,46 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:meta/meta.dart';
+import 'package:path_provider/path_provider.dart' as pathProvider;
 
 class WcFlutterShare {
   static const MethodChannel _channel = const MethodChannel('wc_flutter_share');
 
-  /// Sends a text to other apps.
-  static void text(String title, String text, String mimeType) {
-    Map argsMap = <String, String>{
-      'title': '$title',
-      'text': '$text',
-      'mimeType': '$mimeType'
-    };
-    _channel.invokeMethod('text', argsMap);
-  }
-
-  /// Sends a file to other apps.
-  static Future<void> file(
-      String sharePopupTitle,
-      String textToShare,
-      String subjectToShare,
+  /// Sends a text and file to other apps.
+  static Future<void> share(
+      {@required String sharePopupTitle,
+      String text,
+      String subject,
       String fileName,
-      String mimeTypeOfFile,
-      List<int> bytesOfFile) async {
+      @required String mimeType,
+      List<int> bytesOfFile}) async {
     Map argsMap = <String, String>{
-      'sharePopupTitle': '$sharePopupTitle',
-      'textToShare': textToShare,
-      'subjectToShare': subjectToShare,
-      'fileName': '$fileName',
-      'mimeTypeOfFile': '$mimeTypeOfFile',
+      'sharePopupTitle': sharePopupTitle,
+      'text': text,
+      'subject': subject,
+      'fileName': fileName,
+      'mimeType': mimeType,
     };
 
-    final tempDir = await getTemporaryDirectory();
-    final file = await new File('${tempDir.path}/$fileName').create();
-    await file.writeAsBytes(bytesOfFile);
+    if (mimeType == null) {
+      throw ArgumentError('mimeType is required');
+    }
+    if (sharePopupTitle == null) {
+      throw ArgumentError(
+          'sharePopupTitle is required. This is actualy required for android.');
+    }
 
-    _channel.invokeMethod('file', argsMap);
+    if (fileName != null && bytesOfFile != null) {
+      final tempDir = await pathProvider.getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/$fileName').create();
+      await file.writeAsBytes(bytesOfFile);
+    } else if (fileName != null && bytesOfFile == null) {
+      throw ArgumentError('bytesOfFile is required if fileName is passed');
+    } else if (bytesOfFile != null && fileName == null) {
+      throw ArgumentError('fileName is required if bytesOfFile is passed');
+    }
+
+    _channel.invokeMethod('share', argsMap);
   }
 }
