@@ -1,7 +1,6 @@
 package com.wisecrab.wc_flutter_share
 
 import android.content.Intent
-import androidx.annotation.Nullable
 import androidx.core.content.FileProvider
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
