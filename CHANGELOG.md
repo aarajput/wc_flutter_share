@@ -16,3 +16,8 @@
 * androidx.test:runner version updated from 1.1.1 to 1.2.0
 * androidx.test.espresso:espresso-core version updated from 3.1.1 to 3.2.0
 * androidx.core:core version updated from 1.0.0-rc01 to 1.2.0-alpha02
+
+## 0.2.0
+* iPad support added
+* path_provider version update to ^1.6.0
+* androidx.core:core removed as it was not required

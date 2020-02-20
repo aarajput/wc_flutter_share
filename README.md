@@ -1,7 +1,11 @@
 
 # wc_flutter_share
 
-A [Flutter](https://flutter.io) plugin for sharing file & text with other applications.
+A [Flutter](https://flutter.io) plugin for sharing file, text and subject at the same time with other applications.
+
+![Build Status](https://img.shields.io/badge/build-passing-green)
+[![Author](https://img.shields.io/badge/author-wisecrab-green)](https://wisecrab.com)
+
 
 ### Note for iOS
 
@@ -60,3 +64,7 @@ await WcFlutterShare.share(
 ***NOTE:** You won't be able to share image and text simultaneously on some applications. It is not a bug of this plugin. Some applications don't support this. I have tested this on Skype, on which is working fine.*
 
 Check out the example app in the Repository for further information.
+
+#### More from Wisecrab:
+
+* [Form Validators](https://pub.dev/packages/wc_form_validators): A plugin which provides utility functions to make form validation easy.
