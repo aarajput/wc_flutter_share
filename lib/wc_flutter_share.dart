@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -7,40 +8,56 @@ import 'package:path_provider/path_provider.dart' as pathProvider;
 class WcFlutterShare {
   static const MethodChannel _channel = const MethodChannel('wc_flutter_share');
 
-  /// Sends a text and file to other apps.
-  static Future<void> share(
-      {@required String sharePopupTitle,
-      String text,
-      String subject,
-      String fileName,
-      @required String mimeType,
-      List<int> bytesOfFile}) async {
-    Map argsMap = <String, String>{
-      'sharePopupTitle': sharePopupTitle,
-      'text': text,
-      'subject': subject,
-      'fileName': fileName,
-      'mimeType': mimeType,
-    };
+  /// Share a text, subject and file with other apps.
+  static Future<void> share({
+    @required String sharePopupTitle,
+    String text,
+    String subject,
+    String fileName,
+    @required String mimeType,
+    List<int> bytesOfFile,
+    IPadConfig iPadConfig,
+  }) async {
+    assert(sharePopupTitle != null);
+    assert(mimeType != null);
 
-    if (mimeType == null) {
-      throw ArgumentError('mimeType is required');
-    }
-    if (sharePopupTitle == null) {
-      throw ArgumentError(
-          'sharePopupTitle is required. This is actualy required for android.');
-    }
-
-    if (fileName != null && bytesOfFile != null) {
-      final tempDir = await pathProvider.getTemporaryDirectory();
-      final file = await new File('${tempDir.path}/$fileName').create();
-      await file.writeAsBytes(bytesOfFile);
-    } else if (fileName != null && bytesOfFile == null) {
+    if (fileName != null && bytesOfFile == null) {
       throw ArgumentError('bytesOfFile is required if fileName is passed');
     } else if (bytesOfFile != null && fileName == null) {
       throw ArgumentError('fileName is required if bytesOfFile is passed');
     }
 
+    Map argsMap = <String, dynamic>{
+      'sharePopupTitle': sharePopupTitle,
+      'text': text,
+      'subject': subject,
+      'fileName': fileName,
+      'mimeType': mimeType,
+      'originX': iPadConfig?.originX ?? 0,
+      'originY': iPadConfig?.originY ?? 0,
+      'originWidth': iPadConfig?.originWidth ?? 0,
+      'originHeight': iPadConfig?.originHeight ?? 0,
+    };
+
+    if (fileName != null && bytesOfFile != null) {
+      final tempDir = await pathProvider.getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/$fileName').create();
+      await file.writeAsBytes(bytesOfFile);
+    }
     _channel.invokeMethod('share', argsMap);
   }
+}
+
+class IPadConfig {
+  final int originX;
+  final int originY;
+  final int originWidth;
+  final int originHeight;
+
+  IPadConfig({
+    this.originX,
+    this.originY,
+    this.originWidth,
+    this.originHeight,
+  });
 }

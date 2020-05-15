@@ -1,7 +1,7 @@
 
 # wc_flutter_share
 
-A [Flutter](https://flutter.io) plugin for sharing file, text and subject at the same time with other applications.
+A [Flutter](https://flutter.io) plugin for sharing file, text and subject at the same time with other applications on Android, iOS (iPhone, iPad).
 
 ![Build Status](https://img.shields.io/badge/build-passing-green)
 [![Author](https://img.shields.io/badge/author-wisecrab-green)](https://wisecrab.com)
@@ -49,7 +49,7 @@ await WcFlutterShare.share(
     bytesOfFile: bytes.buffer.asUint8List());
 ```
 
-#### Share file, text and subject:  
+#### Share file, text and subject:
 
 ```dart
 final ByteData bytes = await rootBundle.load('assets/wisecrab.png');  
@@ -61,6 +61,22 @@ await WcFlutterShare.share(
     mimeType: 'image/png',  
     bytesOfFile: bytes.buffer.asUint8List());
 ```
+#### Share on iPad:
+
+```dart
+      WcFlutterShare.share(
+        sharePopupTitle: 'Share',
+        subject: 'This is subject',
+        text: 'This is text',
+        mimeType: 'text/plain',
+        iPadConfig: IPadConfig(
+          originX: 0,
+          originY: 0,
+          originHeight: 0,
+          originWidth: 0,
+        ));
+```
+
 ***NOTE:** You won't be able to share image and text simultaneously on some applications. It is not a bug of this plugin. Some applications don't support this. I have tested this on Skype, on which is working fine.*
 
 Check out the example app in the Repository for further information.

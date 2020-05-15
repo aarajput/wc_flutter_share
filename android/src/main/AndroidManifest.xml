@@ -11,4 +11,5 @@
                 android:resource="@xml/wc_flutter_share_filepaths"/>
         </provider>
     </application>
+
 </manifest>
