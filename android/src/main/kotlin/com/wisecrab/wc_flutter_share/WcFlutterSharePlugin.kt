@@ -33,7 +33,9 @@ class WcFlutterSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             val channel = MethodChannel(registrar.messenger(), "wc_flutter_share")
-            channel.setMethodCallHandler(WcFlutterSharePlugin())
+            val plugin = WcFlutterSharePlugin()
+            plugin.context = registrar.activeContext()
+            channel.setMethodCallHandler(plugin)
         }
     }
 
