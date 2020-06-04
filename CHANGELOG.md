@@ -1,3 +1,7 @@
+## 0.2.2
+* Issue [#12](https://github.com/aarajput/wc_flutter_share/issues/12) fixed. (Thanks to [stonega](https://github.com/stonega) for contribution)
+* Issue [#17](https://github.com/aarajput/wc_flutter_share/issues/17) fixed.
+
 ## 0.2.1
 * iPad config added
 * SDK value changed to ">=2.7.0 <3.0.0"

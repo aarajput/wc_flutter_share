@@ -1,6 +1,6 @@
 name: wc_flutter_share
 description: A Flutter plugin for sharing file, text and subject at the same time with other applications.
-version: 0.2.1
+version: 0.2.2
 homepage: https://github.com/aarajput/wc_flutter_share
 
 environment:
