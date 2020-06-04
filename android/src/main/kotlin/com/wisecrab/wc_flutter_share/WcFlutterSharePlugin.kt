@@ -2,6 +2,8 @@ package com.wisecrab.wc_flutter_share
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ResolveInfo
+import android.content.pm.PackageManager
 import androidx.annotation.NonNull
 import androidx.core.content.FileProvider
 
@@ -68,9 +70,16 @@ class WcFlutterSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val fileProviderAuthority = activeContext.packageName + PROVIDER_AUTH_EXT
             val contentUri = FileProvider.getUriForFile(activeContext, fileProviderAuthority, file)
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+            val chooser: Intent = Intent.createChooser(shareIntent, sharePopupTitle)
+            val resInfoList: List<ResolveInfo> = activeContext.getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
+            for (resolveInfo in resInfoList) {
+                val packageName: String = resolveInfo.activityInfo.packageName
+                activeContext.grantUriPermission(packageName, contentUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            activeContext.startActivity(chooser)
         }
 
-        activeContext.startActivity(Intent.createChooser(shareIntent, sharePopupTitle))
+        else activeContext.startActivity(Intent.createChooser(shareIntent, sharePopupTitle))
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
