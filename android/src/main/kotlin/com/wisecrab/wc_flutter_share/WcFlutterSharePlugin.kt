@@ -65,21 +65,21 @@ class WcFlutterSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         if (subject != null)
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
 
+        val chooser: Intent = Intent.createChooser(shareIntent, sharePopupTitle)
         if (fileName != null) {
             val file = File(activeContext.cacheDir, fileName)
             val fileProviderAuthority = activeContext.packageName + PROVIDER_AUTH_EXT
             val contentUri = FileProvider.getUriForFile(activeContext, fileProviderAuthority, file)
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            val chooser: Intent = Intent.createChooser(shareIntent, sharePopupTitle)
-            val resInfoList: List<ResolveInfo> = activeContext.getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
+
+            val resInfoList: List<ResolveInfo> = activeContext.packageManager.queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
             for (resolveInfo in resInfoList) {
                 val packageName: String = resolveInfo.activityInfo.packageName
                 activeContext.grantUriPermission(packageName, contentUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            activeContext.startActivity(chooser)
         }
 
-        else activeContext.startActivity(Intent.createChooser(shareIntent, sharePopupTitle))
+        activeContext.startActivity(chooser)
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
