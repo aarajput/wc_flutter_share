@@ -19,16 +19,17 @@ import java.io.File
 
 class WcFlutterSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
-    private var context: Context? = null;
+    private var context: Context? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "wc_flutter_share")
-        channel.setMethodCallHandler(this);
+        channel.setMethodCallHandler(this)
     }
 
     companion object {
         const val PROVIDER_AUTH_EXT = ".fileprovider.github.com/com/wisecrab/wc-flutter-share"
 
+        @Suppress("unused")
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             val channel = MethodChannel(registrar.messenger(), "wc_flutter_share")
@@ -55,7 +56,7 @@ class WcFlutterSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         val subject = argMap["subject"] as String?
         val fileName = argMap["fileName"] as String?
         val mimeType = argMap["mimeType"] as String
-        val activeContext = context ?: return;
+        val activeContext = context ?: return
 
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = mimeType
@@ -83,19 +84,18 @@ class WcFlutterSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        this.context = binding.activity;
+        this.context = binding.activity
     }
 
     override fun onDetachedFromActivity() {
-        this.context = null;
+        this.context = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        this.context = binding.activity;
+        this.context = binding.activity
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        this.context = null;
+        this.context = null
     }
-
 }
