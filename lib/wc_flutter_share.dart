@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart' as pathProvider;
+import 'package:wc_flutter_share/write_to_file_interface.dart';
 
 class WcFlutterShare {
   static const MethodChannel _channel = const MethodChannel('wc_flutter_share');
 
   /// Share a text, subject and file with other apps.
-  static Future<void> share({
+  static Future<bool> share({
     @required String sharePopupTitle,
     String text,
     String subject,
@@ -17,12 +17,13 @@ class WcFlutterShare {
     @required String mimeType,
     List<int> bytesOfFile,
     IPadConfig iPadConfig,
+    String alternateText
   }) async {
     assert(sharePopupTitle != null);
     assert(mimeType != null);
 
     if (fileName != null && bytesOfFile == null) {
-      throw ArgumentError('bytesOfFile is required if fileName is passed');
+      throw ArgumentError('ytesOfFile is required if fileName is passed');
     } else if (bytesOfFile != null && fileName == null) {
       throw ArgumentError('fileName is required if bytesOfFile is passed');
     }
@@ -37,14 +38,18 @@ class WcFlutterShare {
       'originY': iPadConfig?.originY ?? 0,
       'originWidth': iPadConfig?.originWidth ?? 0,
       'originHeight': iPadConfig?.originHeight ?? 0,
+      'alternateText': alternateText ?? ""
     };
 
     if (fileName != null && bytesOfFile != null) {
-      final tempDir = await pathProvider.getTemporaryDirectory();
-      final file = await new File('${tempDir.path}/$fileName').create();
-      await file.writeAsBytes(bytesOfFile);
+      WriteToFile writeToFile = WriteToFile();
+      argsMap = await writeToFile.write(
+          bytesOfFile: bytesOfFile,
+          argsMap: argsMap,
+          fileName: fileName
+      );
     }
-    _channel.invokeMethod('share', argsMap);
+   return (await _channel.invokeMethod('share', argsMap))?? true;
   }
 }
 
