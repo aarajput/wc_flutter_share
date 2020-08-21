@@ -41,9 +41,13 @@ class WcFlutterSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
-            "share" -> onShare(call.arguments)
+            "share" -> {
+                onShare(call.arguments)
+                result.success(true);
+            }
             else -> result.notImplemented()
         }
+
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {

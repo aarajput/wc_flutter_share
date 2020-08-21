@@ -8,10 +8,11 @@ public class SwiftWcFlutterSharePlugin: NSObject, FlutterPlugin {
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
-  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+  public func handle(_ call: FlutterMethodCall, result: FlutterResult) {
     switch call.method {
     case "share":
         onShare(args: call.arguments)
+        result(true);
         break;
     default:
         result(FlutterMethodNotImplemented)
