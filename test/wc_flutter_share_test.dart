@@ -16,4 +16,8 @@ void main() {
   tearDown(() {
     channel.setMockMethodCallHandler(null);
   });
+
+  test('getPlatformVersion', () async {
+    expect(await WcFlutterShare.platformVersion, '42');
+  });
 }

@@ -1,15 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.wisecrab.wc_flutter_share">
+    package="com.wisecrab.wc_flutter_share">
+
     <application>
-        <provider
-            android:name=".WcFlutterShareFileProvider"
-            android:authorities="${applicationId}.fileprovider.github.com/com/wisecrab/wc-flutter-share"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/wc_flutter_share_filepaths"/>
-        </provider>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/xml" />
     </application>
 
 </manifest>
