@@ -25,14 +25,19 @@ public class SwiftWcFlutterSharePlugin: NSObject, FlutterPlugin {
         let text: String? = argsMap.value(forKey: "text") as? String
         let subject: String? = argsMap.value(forKey: "subject") as? String
         let fileName: String? = argsMap.value(forKey: "fileName") as? String
+        let mimeType: String = argsMap.value(forKey: "mimeType") as! String
 
         var contentToShare: [Any] = []
 
         if (fileName != nil) {
             // load the file
             let docsPath: String = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
-            let contentUri = NSURL(fileURLWithPath: docsPath).appendingPathComponent(fileName!)
-            contentToShare.append(contentUri!)
+            if let image = getAsImageContent(path: docsPath, fileName: fileName!, mimeType: mimeType) {
+                contentToShare.append(image)
+            } else {
+                let contentUri = NSURL(fileURLWithPath: docsPath).appendingPathComponent(fileName!)
+                contentToShare.append(contentUri!)
+            }
         }
 
         if (text != nil) {
@@ -75,5 +80,44 @@ public class SwiftWcFlutterSharePlugin: NSObject, FlutterPlugin {
         }
 
         controller.show(activityViewController, sender: self)
+    }
+
+    private func isImageMimeType(mimeType: String) -> Bool {
+        if (mimeType == "image/png") {
+            return true;
+        }
+        if (mimeType == "image/jpg") {
+            return true;
+        }
+        if (mimeType == "image/jpeg") {
+            return true;
+        }
+        return false;
+    }
+
+    private func getAsImageContent(path: String, fileName: String, mimeType: String) -> Data? {
+        if (!isImageMimeType(mimeType: mimeType)) {
+            return nil
+        }
+
+        let contentUri = NSURL(fileURLWithPath: path).appendingPathComponent(fileName)
+
+        if (contentUri?.path != nil) {
+            if let image = UIImage(contentsOfFile: contentUri!.path) {
+
+                if (mimeType == "image/png") {
+                    if let imagePNG = image.pngData() {
+                        let imageData: Data = imagePNG
+                        return imageData
+                    }
+                } else if (mimeType == "image/jpg" || mimeType == "image/jpeg") {
+                    if let imageJPEG = image.jpegData(compressionQuality: 1) {
+                        let imageData: Data = imageJPEG
+                        return imageData
+                    }
+                }
+            }
+        }
+        return nil
     }
 }

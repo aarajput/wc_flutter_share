@@ -17,7 +17,6 @@ class WcFlutterShare {
     List<int>? bytesOfFile,
     IPadConfig? iPadConfig,
   }) async {
-
     if (fileName != null && bytesOfFile == null) {
       throw ArgumentError('bytesOfFile is required if fileName is passed');
     } else if (bytesOfFile != null && fileName == null) {
@@ -29,7 +28,7 @@ class WcFlutterShare {
       'text': text,
       'subject': subject,
       'fileName': fileName,
-      'mimeType': mimeType,
+      'mimeType': mimeType.toLowerCase(),
       'originX': iPadConfig?.originX ?? 0,
       'originY': iPadConfig?.originY ?? 0,
       'originWidth': iPadConfig?.originWidth ?? 0,
@@ -46,7 +45,7 @@ class WcFlutterShare {
 }
 
 class IPadConfig {
-  final  int originX;
+  final int originX;
   final int originY;
   final int originWidth;
   final int originHeight;

@@ -1,3 +1,7 @@
+## 0.4.0
+* Issue [#23](https://github.com/aarajput/wc_flutter_share/issues/23) fixed. (Thanks to [Babao Software](https://github.com/babaosoftware) for contribution)
+* Stable null safe release.
+
 ## 0.3.1
 * Documentation fixed.
 
