@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 
@@ -10,16 +9,14 @@ class WcFlutterShare {
 
   /// Share a text, subject and file with other apps.
   static Future<void> share({
-    @required String sharePopupTitle,
-    String text,
-    String subject,
-    String fileName,
-    @required String mimeType,
-    List<int> bytesOfFile,
-    IPadConfig iPadConfig,
+    required String sharePopupTitle,
+    required String mimeType,
+    String? text,
+    String? subject,
+    String? fileName,
+    List<int>? bytesOfFile,
+    IPadConfig? iPadConfig,
   }) async {
-    assert(sharePopupTitle != null);
-    assert(mimeType != null);
 
     if (fileName != null && bytesOfFile == null) {
       throw ArgumentError('bytesOfFile is required if fileName is passed');
@@ -49,15 +46,15 @@ class WcFlutterShare {
 }
 
 class IPadConfig {
-  final int originX;
+  final  int originX;
   final int originY;
   final int originWidth;
   final int originHeight;
 
   IPadConfig({
-    this.originX,
-    this.originY,
-    this.originWidth,
-    this.originHeight,
+    required this.originX,
+    required this.originY,
+    required this.originWidth,
+    required this.originHeight,
   });
 }
